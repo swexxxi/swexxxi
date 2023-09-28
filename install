@@ -1,0 +1,41 @@
+from mss import mss
+import numpy as np
+import time
+import ctypes
+import subprocess
+import requests
+
+hwid = str(subprocess.check_output(
+    'wmic csproduct get uuid')).split('\\r\\n')[1].strip('\\r').strip()
+
+
+hwidinfo_url = 'https://pastebin.com/raw/n4Dj15fy'
+response_hwid = requests.get(hwidinfo_url)
+valid_hwids = response_hwid.text.strip().split("\r\n")
+updates_url = 'https://pastebin.com/raw/v6307J24'
+response_updates = requests.get(updates_url)
+updates_print = response_updates.text.strip().split("\r\n")
+
+print(updates_print)
+print("insert res")
+
+xresf=int(((int(input())/2)-5))
+yresf=int(((int(input())/2)-10))
+
+
+
+
+
+print('------------*Weddaloca Al Massimo*----------')
+print("--------------LOADED-----------")
+
+with mss() as sct:
+        while True:
+            img = sct.grab({"top": yresf, "left": xresf, "width": 10, "height": 10})
+            image = np.array(img)
+            r, g, b = image[:, :, 0], image[:, :, 1], image[:, :, 2]  
+            
+            if np.any((250 - 60 < r) & (r < 250 + 60) & (100 - 60 < g) & (g < 100 + 60) & (250 - 60 < b) & (b < 250 + 60)):
+                    if(ctypes.windll.user32.GetAsyncKeyState(0x02) not in [0,1]):
+                            ctypes.windll.user32.keybd_event(0x4F, 0, 0, 0)
+                            ctypes.windll.user32.keybd_event(0x4F, 0, 0x0002, 0)
